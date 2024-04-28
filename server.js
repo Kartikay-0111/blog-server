@@ -2,6 +2,7 @@ require('dotenv').config()
 const express = require('express')
 const mongoose = require('mongoose')
 const {router} = require('./routes/blogRoutes')
+require('dotenv').config()
 const uri = process.env.MONG_URI;
 const cors = require('cors');
 
