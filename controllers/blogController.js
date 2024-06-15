@@ -2,8 +2,9 @@ const mongoose = require('mongoose');
 const Blog = require('../models/blog');
 
 async function getAllBlogs(req, res) {
+  const {user_id} = req.user._id
   try {
-    const blogs = await Blog.find({}).sort({ createdAt: -1 });
+    const blogs = await Blog.find({user_id}).sort({ createdAt: -1 });
     res.status(200).json({ blogs });
   } catch (error) {
     console.log(error.message);
@@ -28,7 +29,8 @@ async function getBlogById(req, res) {
 async function createBlog(req, res) {
   const { title, snippet, body } = req.body;
   try {
-    const blog = await Blog.create({ title, snippet, body });
+    const user_id  = req.user._id
+    const blog = await Blog.create({ title, snippet, body ,user_id});
     res.status(201).json(blog);
   } catch (error) {
     console.log(error.message);
