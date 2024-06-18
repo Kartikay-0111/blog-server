@@ -21,7 +21,7 @@ userSchema.statics.signup = async function (email, password) {
         throw Error("All fields must be filled")
     }
     if (!validator.isEmail(email)) {
-        throw Error("Not a vlaid email")
+        throw Error("Not a valid email")
     }
     if (!validator.isStrongPassword(password)) {
         throw Error("Please enter a strong password")

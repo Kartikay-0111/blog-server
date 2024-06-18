@@ -2,7 +2,8 @@ const mongoose = require('mongoose');
 const Blog = require('../models/blog');
 
 async function getAllBlogs(req, res) {
-  const {user_id} = req.user._id
+  const user_id = req.user._id
+  // console.log(user_id)
   try {
     const blogs = await Blog.find({user_id}).sort({ createdAt: -1 });
     res.status(200).json({ blogs });
