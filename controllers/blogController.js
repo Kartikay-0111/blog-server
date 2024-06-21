@@ -1,11 +1,28 @@
 const mongoose = require('mongoose');
 const Blog = require('../models/blog');
+const User = require('../models/userModel');
+
+async function getMyBlogs(req, res) {
+  const user_id = req.user._id
+  // console.log(user_id)
+  const user = await User.findById(user_id)
+  username = user.username
+  try {
+    const blogs = await Blog.find({ username }).sort({ createdAt: -1 });
+    res.status(200).json({ blogs });
+  } catch (error) {
+    console.log(error.message);
+    res.status(500).json({ error: 'Server error' });
+  }
+}
 
 async function getAllBlogs(req, res) {
   const user_id = req.user._id
+  const user = await User.findById(user_id)
+  username = user.username
   // console.log(user_id)
   try {
-    const blogs = await Blog.find({user_id}).sort({ createdAt: -1 });
+    const blogs = await Blog.find({ username: { $ne: username } }).sort({ createdAt: -1 });
     res.status(200).json({ blogs });
   } catch (error) {
     console.log(error.message);
@@ -30,8 +47,12 @@ async function getBlogById(req, res) {
 async function createBlog(req, res) {
   const { title, snippet, body } = req.body;
   try {
-    const user_id  = req.user._id
-    const blog = await Blog.create({ title, snippet, body ,user_id});
+    const user_id = req.user._id
+    // console.log(user_id)
+    const user = await User.findById(user_id)
+    username = user.username
+    // console.log(username)
+    const blog = await Blog.create({ title, snippet, body, username });
     res.status(201).json(blog);
   } catch (error) {
     console.log(error.message);
@@ -56,4 +77,4 @@ async function deleteBlog(req, res) {
   }
 }
 
-module.exports = { getAllBlogs, getBlogById, createBlog, deleteBlog };
+module.exports = { getAllBlogs, getBlogById, createBlog, deleteBlog, getMyBlogs };

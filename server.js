@@ -26,8 +26,8 @@ app.use((req, res, next) => {
 })
 
 // routes
-app.use('/vjti/blogs', router)
 app.use('/vjti/user',userRoutes)
+app.use('/vjti', router)
 
 // connect to db
 mongoose.connect(uri)
