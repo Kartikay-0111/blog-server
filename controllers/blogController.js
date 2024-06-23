@@ -31,7 +31,7 @@ async function getAllBlogs(req, res) {
 }
 
 async function getBlogById(req, res) {
-  const { id } = req.params;
+const {id} = req.params
   try {
     const blog = await Blog.findById(id);
     if (!blog) {
@@ -60,6 +60,26 @@ async function createBlog(req, res) {
   }
 }
 
+async function updateBlog(req, res) {
+  const { title, snippet, body } = req.body;
+  const {id} = req.params;
+  // console.log(id)
+  try {
+    const user_id = req.user._id
+    const user = await User.findById(user_id)
+    username = user.username
+    const blog = await Blog.findByIdAndUpdate({_id:id,username:username},
+      { title, snippet, body },
+      { new: true } // Returns the updated document
+      )
+    // console.log("update success")
+    res.status(201).json(blog);
+  } catch (error) {
+    console.log(error.message);
+    res.status(400).json({ error: 'Update failed due to some error' });
+  }
+}
+
 async function deleteBlog(req, res) {
   const { id } = req.params;
   try {
@@ -77,4 +97,4 @@ async function deleteBlog(req, res) {
   }
 }
 
-module.exports = { getAllBlogs, getBlogById, createBlog, deleteBlog, getMyBlogs };
+module.exports = { getAllBlogs, getBlogById, createBlog, deleteBlog, getMyBlogs ,updateBlog};
