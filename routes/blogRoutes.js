@@ -3,9 +3,9 @@ const { getAllBlogs, getBlogById, createBlog, deleteBlog,getMyBlogs,updateBlog} 
 const router = express.Router();
 const requireAuth = require('../middleware/requireAuth')
 
-router.get('/', getAllBlogs);
 router.use(requireAuth)
 
+router.get('/', getAllBlogs);
 
 router.get('/myblogs', getMyBlogs);
 

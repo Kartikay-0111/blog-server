@@ -35,7 +35,7 @@ const {id} = req.params
   try {
     const blog = await Blog.findById(id);
     if (!blog) {
-      return res.status(404).json({ error: 'No such blog' });
+      return res.status(404).json({ error: 'Blog not found' });
     }
     res.status(200).json(blog);
   } catch (error) {

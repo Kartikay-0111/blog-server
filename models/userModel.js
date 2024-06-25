@@ -22,23 +22,23 @@ const userSchema = new Schema({
 userSchema.statics.signup = async function (email, username, password) {
   // Validate fields for signup
   if (!email || !username || !password) {
-    throw new Error('All fields must be filled');
+    throw new Error('Sab fill karna padta hai🤬');
   }
   if (!validator.isEmail(email)) {
-    throw new Error('Not a valid email');
+    throw new Error('Email toh sahi daal🤬');
   }
   if (!validator.isStrongPassword(password)) {
-    throw new Error('Please enter a strong password');
+    throw new Error('Password dhaang ka bana😎');
   }
 
   const emailExists = await this.findOne({ email });
   const usernameExists = await this.findOne({ username });
 
   if (emailExists) {
-    throw new Error('This Email is already signed up');
+    throw new Error('Ye email already hai😉');
   }
   if (usernameExists) {
-    throw new Error('Username already exists');
+    throw new Error('Koi unique username soch😀');
   }
 
   const salt = await bcrypt.genSalt(10);
@@ -51,17 +51,17 @@ userSchema.statics.signup = async function (email, username, password) {
 userSchema.statics.login = async function (username, password) {
   // Validate fields for login
   if (!username || !password) {
-    throw new Error('All fields must be filled');
+    throw new Error('Sab fill karna padta hai🤬');
   }
 
   const user = await this.findOne({ username });
   if (!user) {
-    throw new Error('This username is not found');
+    throw new Error('Bhul gaya kya username😂');
   }
 
   const match = await bcrypt.compare(password, user.password);
   if (!match) {
-    throw new Error('Invalid password');
+    throw new Error('Bhul gaya na password,kamine🤬');
   }
 
   return user;
