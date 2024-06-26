@@ -12,8 +12,7 @@ const app = express()
 
 const corsOptions = {
   origin: ['https://vjti-blog.vercel.app','http://localhost:3000'], 
-  methods: 'GET,HEAD,PUT,PATCH,POST,DELETE',
-  credentials: true,
+  methods: ["GET","HEAD","PUT","PATCH","POST","DELETE"],
   optionsSuccessStatus: 200 
 };
 app.options('*', cors(corsOptions))

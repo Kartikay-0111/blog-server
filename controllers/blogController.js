@@ -3,8 +3,8 @@ const Blog = require('../models/blog');
 const User = require('../models/userModel');
 
 async function getMyBlogs(req, res) {
+  // console.log(req.user)
   const user_id = req.user._id
-  // console.log(user_id)
   const user = await User.findById(user_id)
   username = user.username
   try {
