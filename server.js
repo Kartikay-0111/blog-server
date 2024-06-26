@@ -11,13 +11,13 @@ const cors = require('cors');
 const app = express()
 
 const corsOptions = {
-  origin: '*', 
+  origin: ['https://vjti-blog.vercel.app/','http://localhost:3000'], 
   methods: 'GET,HEAD,PUT,PATCH,POST,DELETE',
   credentials: true,
   optionsSuccessStatus: 200 
 };
+app.options('*', cors(corsOptions))
 app.use(cors(corsOptions)); 
-
 // middleware
 app.use(express.json())
 app.use((req, res, next) => {
