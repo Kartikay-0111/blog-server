@@ -22,7 +22,7 @@ async function getAllBlogs(req, res) {
   username = user.username
   // console.log(user_id)
   try {
-    const blogs = await Blog.find({ username: { $ne: username } }).sort({ createdAt: -1 });
+    const blogs = await Blog.find().sort({ createdAt: -1 });
     res.status(200).json({ blogs });
   } catch (error) {
     console.log(error.message);
