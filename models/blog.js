@@ -17,7 +17,12 @@ const blogSchema = new Schema({
     username:{
         type: String,
         required:true
-    }
+    },
+    likes:[
+        {
+            type:String,
+        }
+    ]
 },{timestamps : true});
 
  

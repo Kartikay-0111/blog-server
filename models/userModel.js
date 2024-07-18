@@ -22,15 +22,35 @@ const userSchema = new Schema({
 userSchema.statics.signup = async function (email, username, password) {
   // Validate fields for signup
   if (!email || !username || !password) {
-    throw new Error('Sab fill karna padta hai🤬');
+    throw new Error('Sab fill karna padta hai');
   }
   if (!validator.isEmail(email)) {
-    throw new Error('Email toh sahi daal🤬');
+    throw new Error('Email toh sahi daal');
   }
-  if (!validator.isStrongPassword(password)) {
-    throw new Error('Password dhaang ka bana😎');
-  }
+  const passwordCriteria = {
+    minLength: 8,
+    minLowercase: 2,
+    minNumbers: 1,
+    minSymbols: 1,
+  };
 
+  // Check each criterion separately
+  if (password.length < passwordCriteria.minLength) {
+    throw new Error(`Password must be at least ${passwordCriteria.minLength} characters long`);
+  }
+  if ((password.match(/[a-z]/g) || []).length < passwordCriteria.minLowercase) {
+    throw new Error(`Password must contain at least ${passwordCriteria.minLowercase} lowercase letters`);
+  }
+  if ((password.match(/[0-9]/g) || []).length < passwordCriteria.minNumbers) {
+    throw new Error(`Password must contain at least ${passwordCriteria.minNumbers} numbers`);
+  }
+  if ((password.match(/[\W_]/g) || []).length < passwordCriteria.minSymbols) {
+    throw new Error(`Password must contain at least ${passwordCriteria.minSymbols} special characters`);
+  }
+  // if (!validator.isStrongPassword(password,{ minLength: 8, minLowercase: 2, minNumbers: 1, minSymbols: 1 })) {
+  //   throw new Error('Password dhaang ka bana😎');
+  // }
+  
   const emailExists = await this.findOne({ email });
   const usernameExists = await this.findOne({ username });
 

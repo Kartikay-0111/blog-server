@@ -97,4 +97,53 @@ async function deleteBlog(req, res) {
   }
 }
 
-module.exports = { getAllBlogs, getBlogById, createBlog, deleteBlog, getMyBlogs ,updateBlog};
+async function likeBlog(req, res) {
+  const { id } = req.params;
+  const user_id = req.user._id;
+
+  try {
+    const user = await User.findById(user_id);
+    const username = user.username;
+    const blog = await Blog.findById(id);
+
+    if (!blog) {
+      return res.status(404).json({ error: 'Blog not found' });
+    }
+
+    blog.likes.push(username);
+    await blog.save();
+
+    res.status(200).json(blog);
+  } catch (error) {
+    console.log(error.message);
+    res.status(500).json({ error: 'Server error' });
+  }
+}
+
+async function unlikeBlog(req, res) {
+  const { id } = req.params;
+  const user_id = req.user._id;
+
+  try {
+    const user = await User.findById(user_id);
+    const username = user.username;
+    const blog = await Blog.findById(id);
+
+    if (!blog) {
+      return res.status(404).json({ error: 'Blog not found' });
+    }
+
+    const likeIndex = blog.likes.indexOf(username);
+
+    blog.likes.splice(likeIndex, 1);
+    await blog.save();
+
+    res.status(200).json(blog);
+  } catch (error) {
+    console.log(error.message);
+    res.status(500).json({ error: 'Server error' });
+  }
+}
+
+module.exports = { getAllBlogs, getBlogById, createBlog, deleteBlog, getMyBlogs, updateBlog, likeBlog, unlikeBlog };
+
